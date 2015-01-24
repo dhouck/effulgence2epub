@@ -6,6 +6,8 @@ import google.protobuf
 import re
 import os
 
+from PIL import Image
+
 def get_chapters_from_stdin():
     chapters = eproto.Chapters()
     google.protobuf.text_format.Merge(sys.stdin.read(), chapters)
@@ -66,5 +68,7 @@ def chapter_to_internal_name(chapter):
 
 def img_url_to_internal(url):
     """Will generate comment.icon_image_name."""
+    local = url.replace("http://", "web_cache/")
+    ext = Image.open(local).format.lower() # Don't need to explicitly close
     r = re.match(r"http://www.dreamwidth.org/userpic/([0-9]*)/([0-9]*)", url)
-    return "img_%s_%s.jpg" % r.groups()
+    return "img_%s_%s.%s" % (r.groups() + (ext,))

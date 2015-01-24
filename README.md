@@ -16,6 +16,7 @@ The code has been observed to work on a specific instance of Ubuntu 14.04. It us
   - [EbookLib](https://github.com/aerkalov/ebooklib) to generate the EPUB file. (no Ubuntu package here; just clone their repo into the root of this one. Ping me if you have better ideas :))
   - [GNU Parallel](http://www.gnu.org/software/parallel/), to process chapters faster on multicore machines. It feels like xargs but it's more flexible and has parallelization awesomeness. Highly recommended for e.g. batch resizing images, too. (apt-get install parallel)
   - [pyratemp](http://www.simple-is-better.org/template/pyratemp.html), for templating. So that we can have for loops in html pages.
+  - [PIL/Pillow](https://pypi.python.org/pypi/Pillow/), for determining the types of images. So we don’t claim all the user profile images are JPEGs when many are in fact PNGs and a few are GIFs. Theoretically, we could just use the built-in `imghdr`, but that gives a surprising number of false negatives on JPEGs, and may be similarly untrustworthy on other file types.
 
 
 How it works
