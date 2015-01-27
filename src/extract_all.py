@@ -39,12 +39,17 @@ filled in."""
     # Apparently, not all comments have images.
     if img_tag:
         c.icon_url = img_tag["src"]
+        images.add(c.icon_url)
         c.icon_text = img_tag["alt"]
         c.icon_image_name = common.img_url_to_internal(c.icon_url)
 
     c.timestamp = c_div.find("span", class_="datetime").text.strip()
     c.cmt_id = int(re.match(r"comment-cmt([0-9]+)", c_div["id"]).groups()[0])
-    c.text = c_div.find("div", class_="comment-content").decode_contents(formatter="html")
+
+    content = c_div.find("div", class_="comment-content")
+    common.replace_links_with_internal(content)
+    c.text = content.decode_contents(formatter="html")
+
     return c
 
 def extract_comment_soup(soup, chapter, parent_threads):
@@ -103,6 +108,7 @@ def branch_thread(thread, from_id):
     return child
 
 chapters = common.get_chapters_from_stdin()
+images = set()
 
 # Mapping usernames to authors.
 user_to_moiety_dict = common.load_profile_data()

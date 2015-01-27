@@ -1,10 +1,12 @@
 import sys
 
+from bs4 import BeautifulSoup
 import effulgence_pb2 as eproto
 
 import google.protobuf
 import re
 import os
+import urlparse
 
 def get_chapters_from_stdin():
     chapters = eproto.Chapters()
@@ -45,8 +47,16 @@ def parse_dreamwidth_url(url):
         result["comment_id"] = int(thread_result.groups()[0])
 
     return result
-    
-    
+
+def dreamwidth_url_to_internal(url):
+    """Given a dreamwidth URL, find the internal URL name"""
+    parsed = parse_dreamwidth_url(url)
+    if parsed.get("comment_id"):
+        parsed["fragment"] = "#cmt%d" % parsed["comment_id"]
+    else:
+        parsed["fragment"] = ""
+    return "{by_user}_{html_numeric_id}.xhtml{fragment}".format(**parsed)
+
 def full_chapter_from_introonly(introonly_chapter):
     """Given a chapter proto (without the comments), we load the full chapter."""
     chapter = eproto.Chapter()
@@ -68,3 +78,10 @@ def img_url_to_internal(url):
     """Will generate comment.icon_image_name."""
     r = re.match(r"http://www.dreamwidth.org/userpic/([0-9]*)/([0-9]*)", url)
     return "img_%s_%s.jpg" % r.groups()
+
+def replace_links_with_internal(soup):
+    for link in soup.find_all("a"):
+        if link.get("href"): # Sometimes comments have <a></a>.
+            dest = urlparse.urlsplit(link["href"])
+            if dest.netloc.split(".", 1)[1] == "dreamwidth.org":
+                link["href"] = dreamwidth_url_to_internal(link["href"])

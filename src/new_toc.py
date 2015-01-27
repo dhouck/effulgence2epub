@@ -30,14 +30,7 @@ if __name__== "__main__":
     # As for the others, parse them & replace them with the appropriate internal
     # links.
 
-    for link in the_toc_html.find_all("a"):
-        url_components = common.parse_dreamwidth_url(link["href"])
-        new_url = "%s_%s.xhtml" % (url_components["by_user"],
-                                   url_components["html_numeric_id"])
-        if "comment_id" in url_components:
-            new_url += "#cmt%d" % url_components["comment_id"]
-        link["href"] = new_url
-    
+    common.replace_links_with_internal(the_toc_html)
 
     toc_string = the_toc_html.decode_contents(formatter="html")
     toc_html_string = toc_template.substitute(toc_entries=toc_string)
