@@ -80,8 +80,27 @@ def img_url_to_internal(url):
     return "img_%s_%s.jpg" % r.groups()
 
 def replace_links_with_internal(soup):
+    """Replace external links with internal links. If anything external can be
+    added to the ebook, return a list of such URLs"""
+    
+    additional_urls = set()
+    
     for link in soup.find_all("a"):
         if link.get("href"): # Sometimes comments have <a></a>.
             dest = urlparse.urlsplit(link["href"])
+            additional_classes = ["internal"]
+            
+            # TODO: Add other things for internal, such as images
             if dest.netloc.split(".", 1)[1] == "dreamwidth.org":
-                link["href"] = dreamwidth_url_to_internal(link["href"])
+                # Check to make sure it’s internal
+                # TODO: Downolad if not (for Bellbook)?
+                chapters = [name.split("?")[0]
+                            for name in os.listdir(os.path.join("web_cache",
+                                                                dest.netloc))]
+                if dest.path in chapters:
+                    link["href"] = dreamwidth_url_to_internal(link["href"])
+            else:
+                additional_classes = ["external"]
+            
+            classes = link.setdefault("class").split() + additional_classes
+            link["class"] = " ".join(classes)
