@@ -90,17 +90,27 @@ def replace_links_with_internal(soup):
             dest = urlparse.urlsplit(link["href"])
             additional_classes = ["internal"]
             
-            # TODO: Add other things for internal, such as images
+            # TODO: Add other things for internal, such as imgur images?
             if dest.netloc.split(".", 1)[1] == "dreamwidth.org":
-                # Check to make sure it’s internal
-                # TODO: Downolad if not (for Bellbook)?
+                # Check to make sure it's internal
                 chapters = [name.split("?")[0]
                             for name in os.listdir(os.path.join("web_cache",
                                                                 dest.netloc))]
                 if dest.path in chapters:
                     link["href"] = dreamwidth_url_to_internal(link["href"])
+            elif dest.path.split(".")[-1] in {"gif", "jpg", "png"}:
+                # TODO: Get better image test
+                additional_urls.add(link["href"])
+                additional_classes.append("image")
+                # TODO: Make link actually internal
             else:
                 additional_classes = ["external"]
             
-            classes = link.setdefault("class").split() + additional_classes
-            link["class"] = " ".join(classes)
+            link["class"] = link.get("class", []) + additional_classes
+    
+    for img in soup.find_all("img"):
+        if img.get("src"):
+            additional_urls += img["src"]
+            # TODO: Make source actually internal
+    
+    return additional_urls
