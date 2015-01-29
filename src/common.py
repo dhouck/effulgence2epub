@@ -110,7 +110,7 @@ def replace_links_with_internal(soup):
     
     for img in soup.find_all("img"):
         if img.get("src"):
-            additional_urls += img["src"]
+            additional_urls.add(img["src"])
             # TODO: Make source actually internal
     
     return additional_urls
