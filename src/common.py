@@ -96,8 +96,10 @@ def replace_links_with_internal(soup):
                 chapters = [name.split("?")[0]
                             for name in os.listdir(os.path.join("web_cache",
                                                                 dest.netloc))]
-                if dest.path in chapters:
+                if dest.path[1:] in chapters:
                     link["href"] = dreamwidth_url_to_internal(link["href"])
+                else:
+                    additonal_classes = ["external"]
             elif dest.path.split(".")[-1] in {"gif", "jpg", "png"}:
                 # TODO: Get better image test
                 additional_urls.add(link["href"])
