@@ -60,6 +60,7 @@ EOF
         ;;
 
     all_flat_parse)
+        truncate -s 0 global_lists/additional_urls.txt
         # Here we use GNU Parallel to launch the processing nicely. We could
         # pipe the entire thing to the parser instead but it wouldn't be as fast
         # / cool.
@@ -71,17 +72,13 @@ EOF
             parallel --gnu -N1 --pipe --recstart 'chapter {' python src/extract_all.py 
         # We need -N1, otherwise the split wouldn't be potentially happening at
         # every line.
+        
+        cat global_lists/additional_urls.txt | sort | uniq \
+            > global_lists/all_the_image_urls.txt
         ;;
 
 
     images_get)
-        # Extract all the icon URLs from the chapters. We get the relevant
-        # lines, throw away everything but the URL, and download everything
-        # unique in the list.
-        cat chapters_pbtxt/*.pbtxt | grep icon_url | \
-            cut -d\" -f 2 | sort -u \
-            >global_lists/all_the_image_urls.txt
-
         (cd web_cache; \
             wget -i ../global_lists/all_the_image_urls.txt \
             --no-clobber -w $WAIT_TIME --force-directories)

@@ -27,9 +27,13 @@ def process_chapter(chapter):
             extract_comment_soup(soup, chapter, parent_threads)
 
             
+additional_urls = set()
+
 def extract_comment(c_div):
     """Given a comment div element obj, returns a Comment proto, with the values
 filled in."""
+    global additional_urls
+    
     c = eproto.Comment()
     c.by_user = c_div.find(True, class_="poster").find("b").text
     c.moiety = user_to_moiety_dict.get(c.by_user, "")
@@ -39,12 +43,17 @@ filled in."""
     # Apparently, not all comments have images.
     if img_tag:
         c.icon_url = img_tag["src"]
+        additional_urls.add(c.icon_url)
         c.icon_text = img_tag["alt"]
         c.icon_image_name = common.img_url_to_internal(c.icon_url)
 
     c.timestamp = c_div.find("span", class_="datetime").text.strip()
     c.cmt_id = int(re.match(r"comment-cmt([0-9]+)", c_div["id"]).groups()[0])
-    c.text = c_div.find("div", class_="comment-content").decode_contents(formatter="html")
+
+    content = c_div.find("div", class_="comment-content")
+    additional_urls |= common.replace_links_with_internal(content)
+    c.text = content.decode_contents(formatter="html")
+
     return c
 
 def extract_comment_soup(soup, chapter, parent_threads):
@@ -112,3 +121,8 @@ for chapter in chapters.chapter:
     with open(os.path.join("chapters_pbtxt", 
                            chapter.full_chapter_file_name), mode="w") as f:
         f.write(str(chapter))
+
+# Add the images found here to the list. This is parallel-safe with append mode.
+with open(os.path.join("global_lists", "additional_urls.txt"), mode="a") as f:
+    for url in additional_urls:
+        print >> f, url

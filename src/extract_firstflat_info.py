@@ -35,12 +35,6 @@ if __name__== "__main__":
     for chapter in chapters.chapter:
         the_file_name = chapter.first_flat_page_url.replace("http://", "web_cache/")
 
-        # Infer the eventual full chapter file name. (Could be done in the first
-        # stage, too.)
-        html_numeric_id = re.search(r"([0-9]+).html", the_file_name).groups()[0]
-        chapter.full_chapter_file_name = "%s_%s.pbtxt" % (chapter.by_user,
-                                                          html_numeric_id)
-
         with open(the_file_name) as first_flat_file:
             print chapter.title
             soup = BeautifulSoup(first_flat_file)

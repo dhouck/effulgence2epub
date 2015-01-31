@@ -10,6 +10,7 @@ TOC (edgeofyourseat.dreamwidth.org/2121.html), parses it and outputs two things:
 
 from bs4 import BeautifulSoup
 import effulgence_pb2 as eproto
+import common
 
 import re
 import urllib
@@ -44,11 +45,15 @@ all the info that can be extracted from the TOC."""
                 "ascii", "xmlcharrefreplace")
 
         chapter.main_threaded_url = link["href"]
-        chapter.by_user = re.search(r'http://([a-z-]*)\.', 
-                                    chapter.main_threaded_url).groups()[0]
+        parsed_url = common.parse_dreamwidth_url(chapter.main_threaded_url)
+        
+        chapter.by_user = parsed_url["by_user"]
 
         chapter.first_flat_page_url = set_param_in_url(
             chapter.main_threaded_url, "view", "flat")
+        
+        chapter.full_chapter_file_name = common.dreamwidth_url_to_internal(
+            chapter.main_threaded_url).replace("xhtml", "pbtxt")
 
     return chapters
 
