@@ -4,3 +4,21 @@
   .comment { margin-top: 0.5em; }
   .thread { margin-top: 1em; }
 
+/* Moieties. */
+.belltower header {
+    background-color: #aaccaa;
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+.binary_heat header {
+    background-color: #ccaacc;
+    border-bottom: 1px solid #ff9999;
+    border-right: 1px solid #ff9999;
+}
+
+.aestrices header {
+    background-color: #aaaacc;
+    border-bottom: 1px solid #ff9999;
+    border-right: 1px solid #ff9999;
+}
