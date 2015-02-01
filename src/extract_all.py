@@ -25,9 +25,34 @@ def process_chapter(chapter):
             soup = BeautifulSoup(f)
             
             extract_comment_soup(soup, chapter, parent_threads)
+    
+    # Assume chapters only have multiple top-level comments on purpose
+    for thread in chapter.thread:
+        flatten_fake_threads(thread)
 
+def flatten_fake_threads(thread):
+    """Given a thread, make sure there aren't any apparently-mistaken branches
+    where the first thread has just one comment (e.g., as seen at
+    http://middlingalong.dreamwidth.org/307.html?thread=10803&style=site#cmt10803),
+    in either the given thread or any of its children.
+    """
+    
+    if len(thread.children) == 2:
+        # Not a major branching point; consider flattening
+        first = thread.children[0]
+        second = thread.children[1]
+        if len(first.comment) == 1 and not first.children:
+            print "Flattening children around cmt%d." % first.comment[0].cmt_id
+            # The branching was probably a mistake
+            thread.comment.extend(first.comment)
+            thread.comment.extend(second.comment)
             
-additional_urls = set()
+            children = second.children[:] # Copy second's children
+            del thread.children[:]
+            thread.children.extend(children)
+    
+    for child in thread.children:
+        flatten_fake_threads(child)
 
 def extract_comment(c_div):
     """Given a comment div element obj, returns a Comment proto, with the values
@@ -112,6 +137,7 @@ def branch_thread(thread, from_id):
     return child
 
 chapters = common.get_chapters_from_stdin()
+additional_urls = set()
 
 # Mapping usernames to authors.
 user_to_moiety_dict = common.load_profile_data()
