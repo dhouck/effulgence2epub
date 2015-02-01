@@ -1,3 +1,26 @@
+  @font-face {
+    font-family: "Symbola";
+    src: local("Symbola"), url("Symbola.ttf");
+  }
+  
+  @font-face {
+    font-family: "FreeSans";
+    src: local("FreeSans"), url("FreeSans.woff");
+  }
+  
+  @font-face {
+    font-family: "Lohit Telugu";
+    src: local("Lohit Telugu", url("LohitTelugu.woff")
+  }
+  
+  @font-face {
+    font-family: "Droid Sans Fallback Full";
+    src: local("Droid Sans Fallback Full"), url("DroidSansFallbackFull.ttf")
+  }
+  
+  body { font-family: sans-serif, "Symbola", "FreeSans", "Lohit Telugu",
+                      "Droid Sans Fallback Full"; }
+  
   .comment {  }
   .comment-image { align: left; margin-right: 0.5em; }
   .comment-header-info {  }
