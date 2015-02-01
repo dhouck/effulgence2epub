@@ -107,7 +107,7 @@ def branch_thread(thread, from_id):
     # Add new child thread
     child = thread.children.add()
     child.comment.extend(after_index)
-    child.children.extend(thread.children)
+    child.children.extend(children)
     
     return child
 
