@@ -10,12 +10,12 @@
   
   @font-face {
     font-family: "Lohit Telugu";
-    src: local("Lohit Telugu", url("LohitTelugu.woff")
+    src: local("Lohit Telugu"), url("Lohit-Telugu.woff");
   }
   
   @font-face {
     font-family: "Droid Sans Fallback Full";
-    src: local("Droid Sans Fallback Full"), url("DroidSansFallbackFull.ttf")
+    src: local("Droid Sans Fallback Full"), url("DroidSansFallbackFull.ttf");
   }
   
   body { font-family: sans-serif, "Symbola", "FreeSans", "Lohit Telugu",
