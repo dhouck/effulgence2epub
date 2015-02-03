@@ -32,7 +32,7 @@ def extract_comment(c_div):
 filled in."""
     c = eproto.Comment()
     c.by_user = c_div.find(True, class_="poster").find("b").text
-    c.moiety = user_to_moiety_dict.get(c.by_user, "")
+    c.moiety = user_to_moiety_dict.get(c.by_user, "other-moiety")
 
     img_tag = c_div.find("div", class_="userpic").find("img")
 
