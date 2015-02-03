@@ -57,11 +57,13 @@
   <body>
     <header>
       <h1>@!chapter.title!@</h1>
-      <i>@!chapter.by_user!@</i>
     </header>
     <section id="the-intro">
+      <header>
+        <i>@!chapter.by_user!@</i>
+      </header>
       $!chapter.intro!$
     </section>
-    @!THREADS(threads = chapter.thread, parent = "#")!@
+    @!THREADS(threads = chapter.thread, parent = chapter.local_file_path.replace('pbtxt', 'xhtml'))!@
   </body>
 </html>
