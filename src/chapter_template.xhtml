@@ -1,8 +1,8 @@
 <!--(macro THREADS)-->
   #! THREADS(threads, parent) !#
-  <!--(if len(chapter.thread) > 1)-->
+  <!--(if len(threads) > 1)-->
     <p>
-      <i>This is a branching point; there are @!len(chapter.thread)!@ continuations from here.</i>
+      <i>This is a branching point; there are @!len(threads)!@ continuations from here.</i>
     </p>
   <!--(end)-->
   <!--(for num, thread in enumerate(threads))-->
@@ -57,11 +57,13 @@
   <body>
     <header>
       <h1>@!chapter.title!@</h1>
-      <i>@!chapter.by_user!@</i>
     </header>
     <section id="the-intro">
+      <header>
+        <i>@!chapter.by_user!@</i>
+      </header>
       $!chapter.intro!$
     </section>
-    @!THREADS(threads = chapter.thread, parent = "#")!@
+    @!THREADS(threads = chapter.thread, parent = chapter.local_file_path.replace('pbtxt', 'xhtml'))!@
   </body>
 </html>

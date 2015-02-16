@@ -26,8 +26,8 @@ chapter_template = pyratemp.Template(
 style = pkg_resources.resource_string(__name__, "style.css")
 
 
-def map_external_imgs(book, chapter, the_map):
-    for thread in chapter.thread:
+def map_external_imgs(book, threads, the_map):
+    for thread in threads:
         for comment in thread.comment:
             if not comment.HasField("icon_url"):
                 continue
@@ -39,7 +39,7 @@ def map_external_imgs(book, chapter, the_map):
                     img.content = f.read()
                 book.add_item(img)
                 the_map[img_file_name] = True # Should have been a set :P
-                
+        map_external_imgs(book, thread.children, the_map)
 
 if __name__ == "__main__":
     chapters = common.get_chapters_from_stdin()
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         # This will put the relevant images into the epub, if they are not yet
         # already there. (The map is to keep track of whether they are there or
         # not.)
-        map_external_imgs(book, chapter, img_urls_to_epub_map)
+        map_external_imgs(book, chapter.thread, img_urls_to_epub_map)
 
         # This does the entire template substitution.
         chapter_html = chapter_template(chapter=chapter)
