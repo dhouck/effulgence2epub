@@ -14,7 +14,7 @@ case $1 in
     "") cat <<EOF
 Please choose between the following operations: toc_download, toc_parse,
 firstflat_download, firstflat_parse, all_flat_download, all_flat_parse, 
-images_get, toc_xhtmlize, gen_ebook, gen_html.
+images_get, toc_xhtmlize, gen_ebook, gen_html, clean.
 
 (Typically, this is a reasonable ordering for downloading everything.)
 EOF
@@ -137,6 +137,10 @@ EOF
     gen_html)
         cat global_lists/chapters_with_intros.pbtxt | \
             parallel --gnu -N1 --pipe --recstart 'chapter {' python src/gen_html.py 
+        ;;
+
+    clean)
+        rm global_lists/*.txt global_lists/*.pbtxt chapters_pbtxt/*.pbtxt
         ;;
 
     *) echo "Unknown stage; sorry."
