@@ -60,19 +60,20 @@ filled in."""
     global additional_urls
     
     c = eproto.Comment()
-    c.by_user = c_div.find(True, class_="poster").find("b").text
-    c.moiety = user_to_moiety_dict.get(c.by_user, "other-moiety")
+    h = c.header
+    h.by_user = c_div.find(True, class_="poster").find("b").text
+    h.moiety = user_to_moiety_dict.get(h.by_user, "other-moiety")
 
     img_tag = c_div.find("div", class_="userpic").find("img")
 
     # Apparently, not all comments have images.
     if img_tag:
-        c.icon_url = img_tag["src"]
-        additional_urls.add(c.icon_url)
-        c.icon_text = img_tag["alt"]
-        c.icon_image_name = common.img_url_to_internal(c.icon_url)
+        h.icon_url = img_tag["src"]
+        additional_urls.add(h.icon_url)
+        h.icon_text = img_tag["alt"]
+        h.icon_image_name = common.img_url_to_internal(h.icon_url)
 
-    c.timestamp = c_div.find("span", class_="datetime").text.strip()
+    h.timestamp = c_div.find("span", class_="datetime").text.strip()
     c.cmt_id = int(re.match(r"comment-cmt([0-9]+)", c_div["id"]).groups()[0])
 
     content = c_div.find("div", class_="comment-content")

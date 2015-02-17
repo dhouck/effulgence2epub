@@ -29,11 +29,11 @@ style = pkg_resources.resource_string(__name__, "style.css")
 def map_external_imgs(book, threads, the_map):
     for thread in threads:
         for comment in thread.comment:
-            if not comment.HasField("icon_url"):
+            if not comment.header.HasField("icon_url"):
                 continue
-            img_file_name = comment.icon_url.replace("http://", "web_cache/")
+            img_file_name = comment.header.icon_url.replace("http://", "web_cache/")
             if img_file_name not in the_map:
-                internal_url = common.img_url_to_internal(comment.icon_url)
+                internal_url = common.img_url_to_internal(comment.header.icon_url)
                 img = epub.EpubItem(uid=internal_url, file_name=internal_url)
                 with open(img_file_name) as f:
                     img.content = f.read()

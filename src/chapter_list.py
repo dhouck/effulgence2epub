@@ -46,8 +46,7 @@ all the info that can be extracted from the TOC."""
 
         chapter.main_threaded_url = link["href"]
         parsed_url = common.parse_dreamwidth_url(chapter.main_threaded_url)
-        
-        chapter.by_user = parsed_url["by_user"]
+        chapter.header.by_user = parsed_url["by_user"]
 
         chapter.first_flat_page_url = set_param_in_url(
             chapter.main_threaded_url, "view", "flat")

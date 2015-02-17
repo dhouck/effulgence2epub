@@ -34,7 +34,7 @@ def load_profile_data():
 def parse_dreamwidth_url(url):
     """Returns a dict with keys by_user, html_numeric_id, and optionally comment_id
 (latter as an integer). Latter is useful for links into multithreaded chapters."""
-    by_user = re.search(r"http://([a-z-]*)\.", url).groups()[0]
+    by_user = re.search(r"http://([a-z-]*)\.", url).groups()[0].replace("-", "_")
     html_numeric_id = re.search(r"([0-9]+).html", url).groups()[0]
     
     result = {

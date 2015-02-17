@@ -4,7 +4,7 @@ package effulgence;
 message Chapter {
   optional string title = 1; // Title as in the TOC, e.g. "he couldn't have
                              // imagined".
-  optional string by_user = 4; // Dreamwidth user name, e.g. "edgeofyourseat".
+  optional Header header = 12; // Meta-information about this chapter's intro
   optional string main_threaded_url = 2; // The link from the TOC points here,
                                          // to the threaded page.
   optional string first_flat_page_url = 3; // Will be used to determine the
@@ -46,17 +46,6 @@ message LinearCommentThread {
 
 // One unit of thing.
 message Comment {
-  // The Dreamwidth user the comment is by.
-  optional string by_user = 1;
-  // Full URL for the icon pic.
-  optional string icon_url = 2;
-  // Text associated with the icon (from the mouseover).
-  optional string icon_text = 3;
-  // Local image name for the icon. Will be used internally by all the mirrors /
-  // ebooks.
-  optional string icon_image_name = 7;
-  // Timestamp, as it is on the site. (... UTC, apparently.)
-  optional string timestamp = 4;
   // The ID of the comment. It's "cmt" plus these (typically six) digits; let's
   // hope it's unique around the site.
   optional int32 cmt_id = 5;
@@ -65,11 +54,28 @@ message Comment {
   // optional int32 parent_cmt_id = 6;
   // The text of the comment, with HTML in it.
   optional string text = 6;
-  // The actual author ('s profile name).
-  optional string moiety = 8;
+  // Meta-information about this comment.
+  optional Header header = 9;
 }
 
-// One such PB will be generated from the TOC.
+message Header {
+  // The Dreamwidth user this content is by, e.g. "her_imperial_radiance"
+  optional string by_user = 1;
+  // The actual author ('s profile name), e.g. "belltower".
+  optional string moiety = 2;
+  // The character name, e.g. "Princess Elspeth Annarose Cullen"
+  optional string by_character = 3;
+  // Timestamp, as it is on the site. (... UTC, apparently.)
+  optional string timestamp = 4;
+  // Text associated with the icon (from the mouseover).
+  optional string icon_text = 5;
+  // Full URL for the icon pic.
+  optional string icon_url = 6;
+  // Local image name for the icon. Will be used internally by all the mirrors /
+  // ebooks.
+  optional string icon_image_name = 7;
+}
+
 message Chapters {
   repeated Chapter chapter = 1;
 }
