@@ -1,6 +1,24 @@
-  .comment {  }
-  .comment-image { align: left; margin-right: 0.5em; }
-  .comment-header-info {  }
-  .comment { margin-top: 0.5em; }
-  .thread { margin-top: 1em; }
+.profile-image { align: left; margin-right: 0.5em; }
+.header-info {  }
+.comment { margin-top: 0.5em; }
+.thread { margin-top: 1em; }
 
+
+/* Moieties. */
+.belltower .comment-header-box {
+    background-color: #aaccaa;
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+.binary_heat .comment-header-box {
+    background-color: #ccaacc;
+    border-bottom: 1px solid #ff9999;
+    border-right: 1px solid #ff9999;
+}
+
+.aestrices .comment-header-box {
+    background-color: #aaaacc;
+    border-bottom: 1px solid #ff9999;
+    border-right: 1px solid #ff9999;
+}
