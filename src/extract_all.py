@@ -14,6 +14,10 @@ import os
 import common
 
 def process_chapter(chapter):
+    # This could be done earlier, but we already have the moiety dict here
+    chapter.header.moiety = user_to_moiety_dict.get(chapter.header.by_user,
+                                                    "other-moiety")
+    
     flat_files = [s.replace("http://", "web_cache/") for s in chapter.flat_url]
 
     parent_threads = {} # Comment ID to LinearCommentThread ref, for all the
