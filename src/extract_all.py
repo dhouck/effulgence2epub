@@ -82,7 +82,7 @@ filled in."""
 
     content = c_div.find("div", class_="comment-content")
     additional_urls |= common.replace_links_with_internal(content)
-    c.text = content.decode_contents(formatter="html")
+    c.text = content.decode_contents(formatter="html").replace("&amp;lt", "&lt;")
 
     return c
 
