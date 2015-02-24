@@ -4,7 +4,13 @@
 # downloader. Takes one parameter: the stage name. Look for the things below.
 
 # Wait this much between dreamwidth.org downloads (in seconds). Longer is nicer.
-WAIT_TIME=10
+WAIT_TIME=0
+
+function get () {
+    cd web_cache
+    wget --load-cookies wget-cookies --save-cookies wget-cookies -w $WAIT_TIME \
+        --force-directories --timestamping -i ../$@
+}
 
 # Go to the dir where the script is. Useful to find all the other stuff.
 cd `dirname $0`
@@ -25,9 +31,7 @@ EOF
         # Downloads the TOC for Effulgence, Incandescence & the sandboxes. Plus
         # user lists for the main authors.
         
-        (cd web_cache; \
-            wget --force-directories \
-            -i ../starter_html_set.txt)
+        get starter_html_set.txt
         ;;
 
     toc_parse)
@@ -44,9 +48,7 @@ EOF
         ;;
     
     firstflat_download)
-        (cd web_cache; \
-            wget -i ../global_lists/first_flat_list.txt --no-clobber -w $WAIT_TIME \
-            --force-directories)
+        get global_lists/first_flat_list.txt
         ;;
     
     firstflat_parse)
@@ -54,9 +56,7 @@ EOF
         ;;
 
     all_flat_download)
-        (cd web_cache; \
-            wget -i ../global_lists/all_chapters_list.txt --no-clobber \
-            -w $WAIT_TIME --force-directories)
+        get global_lists/all_chapters_list.txt
         ;;
 
     all_flat_parse)
@@ -79,9 +79,7 @@ EOF
 
 
     images_get)
-        (cd web_cache; \
-            wget -i ../global_lists/all_the_image_urls.txt \
-            --no-clobber -w $WAIT_TIME --force-directories)
+        get global_lists/all_the_image_urls.txt
         ;;
 
     gen_ebook)
