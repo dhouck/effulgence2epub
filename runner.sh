@@ -90,7 +90,7 @@ EOF
         # Do the thing with a smaller list of chapters. It's faster. By the way,
         # this is an ugly hardcoded length but it's likely to stay the
         # same. (It's the first two chapters.)
-        cat global_lists/chapters_with_intros.pbtxt | head -n 22 | \
+        cat global_lists/chapters_with_intros.pbtxt | head -n 26 | \
             python src/gen_epub.py
         ;;
 
@@ -128,7 +128,7 @@ EOF
         ;;
         
     gen_html_test)
-        cat global_lists/chapters_with_intros.pbtxt | head -n 22 | \
+        cat global_lists/chapters_with_intros.pbtxt | head -n 26 | \
             python src/gen_html.py
         ;;
 
