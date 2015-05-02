@@ -76,7 +76,7 @@ def chapter_to_internal_name(chapter):
 
 def img_url_to_internal(url):
     """Will generate comment.icon_image_name."""
-    r = re.match(r"http://www.dreamwidth.org/userpic/([0-9]*)/([0-9]*)", url)
+    r = re.match(r"http://v.dreamwidth.org/([0-9]*)/([0-9]*)", url)
     return "img/profile/%s_%s" % r.groups()
 
 def replace_links_with_internal(soup):
