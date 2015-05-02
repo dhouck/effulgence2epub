@@ -101,7 +101,7 @@ if __name__ == "__main__":
     
     for font_file_name in os.listdir("fonts"):
         # TODO: Check calibre's claims that mimetype should be different
-        font = epub.EpubItem(uid = font_file_name, file_name = "fonts/" + font_file_name)
+        font = epub.EpubItem(uid = font_file_name, file_name = font_file_name)
         with open(os.path.join("fonts", font_file_name)) as f:
             font.content = f.read()
         book.add_item(font)
