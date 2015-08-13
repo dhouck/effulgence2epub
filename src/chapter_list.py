@@ -44,7 +44,11 @@ all the info that can be extracted from the TOC."""
             chapter.symbols = link.previous_sibling.strip().encode(
                 "ascii", "xmlcharrefreplace")
 
-        chapter.main_threaded_url = link["href"]
+        url = link["href"]
+        # Temporary patch for https
+        if url[4] == "s":
+            url = "http" + url[5:]
+        chapter.main_threaded_url = url
         parsed_url = common.parse_dreamwidth_url(chapter.main_threaded_url)
         chapter.header.by_user = parsed_url["by_user"]
 
