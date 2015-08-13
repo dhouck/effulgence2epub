@@ -4,7 +4,7 @@
 # downloader. Takes one parameter: the stage name. Look for the things below.
 
 # Wait this much between dreamwidth.org downloads (in seconds). Longer is nicer.
-WAIT_TIME=0
+WAIT_TIME=0.5
 
 function get () {
     cd web_cache
@@ -20,7 +20,7 @@ case $1 in
     "") cat <<EOF
 Please choose between the following operations: toc_download, toc_parse,
 firstflat_download, firstflat_parse, all_flat_download, all_flat_parse, 
-images_get, toc_xhtmlize, gen_ebook, gen_html, clean.
+images_get, toc_xhtmlize, gen_epub, gen_mobi, gen_html, clean.
 
 (Typically, this is a reasonable ordering for downloading everything.)
 EOF
@@ -80,19 +80,24 @@ EOF
 
     images_get)
         get global_lists/all_the_image_urls.txt
+        exit 0
         ;;
 
-    gen_ebook)
+    gen_epub)
         cat global_lists/chapters_with_intros.pbtxt | python src/gen_epub.py
         ;;
 
-    gen_ebook_test)
+    gen_epub_test)
         # Do the thing with a smaller list of chapters. It's faster. By the way,
         # this is an ugly hardcoded length but it's likely to stay the
         # same. (It's the first two chapters.)
         cat global_lists/chapters_with_intros.pbtxt | head -n 26 | \
             python src/gen_epub.py
         ;;
+    
+    gen_mobi)
+    	kindlegen -dont_append_source -c2 -verbose effulgence.epub
+    	;;
 
     collect_html_supplementary_files)
         # We copy all the images to the HTML mirror dir. They all have URLs like
