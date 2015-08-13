@@ -31,7 +31,7 @@ def map_external_imgs(book, threads, the_map):
         for comment in thread.comment:
             if not comment.header.HasField("icon_url"):
                 continue
-            img_file_name = comment.header.icon_url.replace("http://", "web_cache/")
+            img_file_name = comment.header.icon_url.replace("http://", "image_cache/")
             if img_file_name not in the_map:
                 internal_url = common.img_url_to_internal(comment.header.icon_url)
                 img = epub.EpubItem(uid=internal_url, file_name=internal_url)
