@@ -80,6 +80,7 @@ if __name__ == "__main__":
 
         # Reload the actual, full thing.
         chapter = common.full_chapter_from_introonly(introonly_chapter)
+        print chapter.title
 
         # This will put the relevant images into the epub, if they are not yet
         # already there. (The map is to keep track of whether they are there or
