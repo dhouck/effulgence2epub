@@ -67,7 +67,6 @@ filled in."""
     h = c.header
     h.by_user = c_div.find(True, class_="poster").find("b").text
     h.moiety = user_to_moiety_dict.get(h.by_user, "other-moiety")
-    c.moiety = user_to_moiety_dict.get(c.by_user, "other-moiety")
 
     img_tag = c_div.find("div", class_="userpic").find("img")
 
