@@ -1,3 +1,10 @@
+Current Status
+==============
+
+For a while this was the main version of the repository, after ssafar was unable to keep maintaining it. Then Throne3d made a different version, and shortly after that Effulgence and other glowfic moved and this project became useless.
+
+I might re-use bits of this for an upcoming rewrite to export from [the new Glowfic website](https://glowfic.com/)
+
 About Effulgence2Epub
 =====================
 
